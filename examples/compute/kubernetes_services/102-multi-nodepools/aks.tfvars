@@ -31,13 +31,15 @@ aks_clusters = {
 
     default_node_pool = {
       name                  = "sharedsvc"
-      vm_size               = "Standard_F4s_v2"
+      vm_size               = "Standard_D2s_v3"
       subnet_key            = "aks_nodepool_system"
       enabled_auto_scaling  = false
       enable_node_public_ip = false
       max_pods              = 30
       node_count            = 1
-      os_disk_size_gb       = 512
+      os_disk_size_gb       = 48
+      os_disk_type          = "Ephemeral"
+      temporary_name_for_rotation = "tempsvcpool"
       tags = {
         "project" = "system services"
       }
@@ -51,10 +53,11 @@ aks_clusters = {
         mode                = "User"
         subnet_key          = "aks_nodepool_user1"
         max_pods            = 30
-        vm_size             = "Standard_DS2_v2"
+        vm_size             = "Standard_D4s_v3"
         node_count          = 1
         enable_auto_scaling = false
-        os_disk_size_gb     = 512
+        os_disk_size_gb     = 64
+        os_disk_type          = "Ephemeral"
         tags = {
           "project" = "user services"
         }

@@ -23,20 +23,11 @@ vnets = {
         cidr    = ["100.64.50.0/24"]
         nsg_key = "azure_kubernetes_cluster_nsg"
       }
-      AzureBastionSubnet = {
-        name    = "AzureBastionSubnet" #Must be called AzureBastionSubnet
-        cidr    = ["100.64.51.64/27"]
-        nsg_key = "azure_bastion_nsg"
-      }
+
       private_endpoints = {
         name                                           = "private_endpoints"
         cidr                                           = ["100.64.51.0/27"]
         enforce_private_link_endpoint_network_policies = true
-      }
-      jumpbox = {
-        name    = "jumpbox"
-        cidr    = ["100.64.51.128/27"]
-        nsg_key = "azure_bastion_nsg"
       }
     }
 
@@ -114,77 +105,6 @@ network_security_group_definition = {
         source_address_prefix      = "*"
         destination_address_prefix = "*"
       },
-    ]
-  }
-  azure_bastion_nsg = {
-
-    nsg = [
-      {
-        name                       = "bastion-in-allow",
-        priority                   = "100"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "443"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "bastion-control-in-allow-443",
-        priority                   = "120"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "135"
-        source_address_prefix      = "GatewayManager"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "Kerberos-password-change",
-        priority                   = "121"
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "4443"
-        source_address_prefix      = "GatewayManager"
-        destination_address_prefix = "*"
-      },
-      {
-        name                       = "bastion-vnet-out-allow-22",
-        priority                   = "103"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "22"
-        source_address_prefix      = "*"
-        destination_address_prefix = "VirtualNetwork"
-      },
-      {
-        name                       = "bastion-vnet-out-allow-3389",
-        priority                   = "101"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "3389"
-        source_address_prefix      = "*"
-        destination_address_prefix = "VirtualNetwork"
-      },
-      {
-        name                       = "bastion-azure-out-allow",
-        priority                   = "120"
-        direction                  = "Outbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "443"
-        source_address_prefix      = "*"
-        destination_address_prefix = "AzureCloud"
-      }
     ]
   }
 }
